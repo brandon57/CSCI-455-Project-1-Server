@@ -7,6 +7,11 @@ public class Connections implements Runnable {
 
 	public Connections()
 	{
+
+	}
+	
+	@Override
+	public void run() {
 		try
 		{
 			ServerSocket User_Socket = new ServerSocket();
@@ -16,10 +21,6 @@ public class Connections implements Runnable {
 			System.out.println("Couldn't open socket");
 			System.exit(0);
 		}
-	}
-	
-	@Override
-	public void run() {
 		
 	}
 
