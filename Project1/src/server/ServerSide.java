@@ -10,8 +10,9 @@ public class ServerSide {
 	public static <T> void main(String[] args) throws Exception {
 		
 		ExecutorService Thread_Manager = Executors.newCachedThreadPool();
+		
 		//Future<T> start = (Future<T>) Thread_Manager.submit(new Connections());
-		String test = "Hello\n";
+		String test = "Hello";
 		
 		
 		//Creates a socket
@@ -24,15 +25,14 @@ public class ServerSide {
 			{
 				Socket New_Connection = User_Socket.accept();
 				
-				System.out.println("New client");
+				System.out.println("New client has connected");
 				
 				DataOutputStream toClient = new DataOutputStream(New_Connection.getOutputStream());
-				toClient.writeBytes(test);
+				toClient.writeBytes(test + " Test\n");
 				
 				if(New_Connection.isConnected())
 				{
 					System.out.println("This is the address of the new User: " + New_Connection.getInetAddress());
-					//System.exit(0);
 				}
 			}
 		}
