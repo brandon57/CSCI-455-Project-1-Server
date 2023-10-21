@@ -11,7 +11,7 @@ public class ServerSide {
 		
 		ExecutorService Thread_Manager = Executors.newCachedThreadPool();
 		//Future<T> start = (Future<T>) Thread_Manager.submit(new Connections());
-		
+		String test = "Hello\n";
 		
 		
 		//Creates a socket
@@ -25,15 +25,15 @@ public class ServerSide {
 				Socket New_Connection = User_Socket.accept();
 				
 				System.out.println("New client");
+				
 				DataOutputStream toClient = new DataOutputStream(New_Connection.getOutputStream());
-				String test = "Hello";
 				toClient.writeBytes(test);
 				
-//				if(New_Connection.isConnected())
-//				{
-//					
-//					//System.exit(0);
-//				}
+				if(New_Connection.isConnected())
+				{
+					System.out.println("This is the address of the new User: " + New_Connection.getInetAddress());
+					//System.exit(0);
+				}
 			}
 		}
 		catch(Exception e)
