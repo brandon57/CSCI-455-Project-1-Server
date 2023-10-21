@@ -12,15 +12,19 @@ public class Connections implements Runnable {
 	
 	@Override
 	public void run() {
-		try
-		{
-			ServerSocket User_Socket = new ServerSocket();
-		}
-		catch(Exception e)
-		{
-			System.out.println("Couldn't open socket");
-			System.exit(0);
-		}
+//		try
+//		{
+//			System.out.println("Opening Socket...");
+//			ServerSocket User_Socket = new ServerSocket();
+//			System.out.println("Socket is open");
+//			Socket New_Connection = User_Socket.accept();
+//			
+//		}
+//		catch(Exception e)
+//		{
+//			System.out.println("Couldn't open socket");
+//			System.exit(0);
+//		}
 		
 	}
 
