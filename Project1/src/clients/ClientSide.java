@@ -7,8 +7,10 @@ public class ClientSide {
 
 	public static void main(String[] args) throws Exception {
 		String result = "";
-		Socket client ;
+		Socket client = null;
 		String response = "";
+		DataOutputStream toServer = null;
+		BufferedReader fromServer = null;
 		
 		Scanner input = new Scanner(System.in);
 		
@@ -61,7 +63,7 @@ public class ClientSide {
 			try
 			{
 				client = new Socket("localhost", 6789);
-				BufferedReader fromServer = new BufferedReader(new InputStreamReader(client.getInputStream()));
+				fromServer = new BufferedReader(new InputStreamReader(client.getInputStream()));
 				
 				for(int i = 0; i < 2; i++)
 				{
@@ -112,11 +114,21 @@ public class ClientSide {
 				}
 			}
 		}
-		//DataInputStream fromServer = new DataInputStream(client.getInputStream());
+		toServer = new DataOutputStream(client.getOutputStream());
+		//System.out.println("Say something to the server");
+		
+		
+		toServer.writeBytes(input.nextLine() + "\n");
+		
 		client.close();
 		
 		//The part where the User actually interacts with the Website
 		
+		
+		while(true)
+		{
+			
+		}
 	}
 	
 	

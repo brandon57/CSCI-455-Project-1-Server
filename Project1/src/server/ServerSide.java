@@ -10,8 +10,8 @@ import java.util.concurrent.*;
 public class ServerSide <T> {
 	
 	//The database for the server
-	ArrayList<String> Fundraisers = new ArrayList<>(4);
-	HashMap<Integer, ArrayList<String>> Current_Fundraisers = new HashMap<>();
+	//public ArrayList<String> Fundraisers = new ArrayList<>(4);
+	//public HashMap<Integer, ArrayList<String>> Current_Fundraisers = new HashMap<>();
 	
 	public static <T> void main(String[] args) throws Exception {
 
@@ -38,13 +38,15 @@ public class ServerSide <T> {
 			System.exit(0);
 		}
 		
+		Database Fundraisers = new Database();
+		
 		int num = 0;
 		//Waits for a User to connect then
 		while(true)
 		{
 			num++;
 			Socket New_Connection = User_Socket.accept();
-			Thread_Manager.execute(new User(New_Connection));
+			Thread_Manager.execute(new User(New_Connection, Fundraisers));
 			System.out.println("New client has connected");
 			System.out.println("User " + num + ": " + "IP address: " + New_Connection.getInetAddress() + " Port number: " + New_Connection.getPort());
 			
@@ -55,12 +57,12 @@ public class ServerSide <T> {
 	}
 	
 	
-	public void Setup_Database()
-	{
-		Fundraisers.add("John's college fund");
-		Fundraisers.add("1000");
-		Fundraisers.add("October, 20, 2023");
-		Current_Fundraisers.put(1, Fundraisers);
-	}
+//	public void Setup_Database()
+//	{
+//		Fundraisers.add("John's college fund");
+//		Fundraisers.add("1000");
+//		Fundraisers.add("October, 20, 2023");
+//		Current_Fundraisers.put(1, Fundraisers);
+//	}
 
 }
