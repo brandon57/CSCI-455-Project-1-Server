@@ -79,6 +79,7 @@ public class Database {
 				add(deadline);
 			}
 		};
+		Current_Fundraisers.put();
 		lock.unlock();
 	}
 	
