@@ -5,9 +5,11 @@ import java.util.Scanner;
 
 public class ClientSide {
 
+	private static Socket client = null;
+	
 	public static void main(String[] args) throws Exception {
-		String result = "";
-		Socket client = null;
+		String textFromServer = "";
+		//Socket client = null;
 		String response = "";
 		DataOutputStream toServer = null;
 		BufferedReader fromServer = null;
@@ -53,6 +55,7 @@ public class ClientSide {
 				}
 			}
 		}
+		//input.close();
 		
 
 		
@@ -64,12 +67,6 @@ public class ClientSide {
 			{
 				client = new Socket("localhost", 6789);
 				fromServer = new BufferedReader(new InputStreamReader(client.getInputStream()));
-				
-				for(int i = 0; i < 2; i++)
-				{
-					result = fromServer.readLine();
-					System.out.println(result);
-				}
 				break;
 				//client.close();
 			}
@@ -118,24 +115,44 @@ public class ClientSide {
 		//System.out.println("Say something to the server");
 		
 		
-		toServer.writeBytes(input.nextLine() + "\n");
+		//toServer.writeBytes(input.nextLine() + "\n");
 		
-		client.close();
+		//client.close();
 		
 		//The part where the User actually interacts with the Website
-		
-		
+		System.out.println("");
 		while(true)
-		{
-			
+		{		
+			//This is how the User gets info from the Server
+			try
+			{
+				while((textFromServer = fromServer.readLine()) != null)
+				{
+					if(textFromServer.equalsIgnoreCase(" "))
+					{
+						break;
+					}
+					System.out.println(textFromServer);
+				}
+				toServer.writeBytes(input.nextLine() + "\n");
+			}
+			catch(Exception e)
+			{
+				System.out.println("You and the server have disconnected");
+				close();
+			}
 		}
 	}
 	
 	
 	
 	//Stops the program
-	private static void close()
+	private static void close() throws Exception
 	{
+		if(client != null)
+		{
+			client.close();
+		}
 		System.out.println("Closing...");
 		System.exit(0);
 	}

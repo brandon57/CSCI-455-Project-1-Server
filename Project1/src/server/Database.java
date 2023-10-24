@@ -4,104 +4,108 @@ import java.util.HashMap;
 import java.util.concurrent.locks.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+//import java.time.
 
 //This class is used to store data
 //Might get rid of this is I find out reading from a file is easier
-public class Database {
-	//Lock for threads
-	private static Lock lock = new ReentrantLock();
+public class Database <T> {	
+	//private Date date = new Date();
+	private LocalDate currentDate = LocalDate.now();
+	private DateTimeFormatter date_format;
+	private String format = "MM/dd/yyyy";
+	//Where the Fundraisers are stored
+	private ArrayList<ArrayList<T>> Fundraisers = new ArrayList<ArrayList<T>>();
 	
-	
-	private ArrayList<String> First_Fundraiser = new ArrayList<>()
+	public <T> Database() throws ParseException
 	{
-		{
-			add("john college fund");
-			add("1000");
-			add("October 30 2023");
-		}
-	};
-	private HashMap<String, ArrayList<String>> Current_Fundraisers = new HashMap<>();
-
-	private HashMap<String, ArrayList<String>> Past_Fundraisers = new HashMap<>();
-	
-	public <T> Database()
-	{
-		Current_Fundraisers.put("1", First_Fundraiser);
+		//Puts in a fundraiser to start with
+		set("John's college fund", 1000, "10/30/2023");
+		set("wedding", 10040, "10/20/2023");
 	}
 	
-//	public ArrayList<String> get(int choice)
-//	{
-//		ArrayList<String> Fundraiser = Current_Fundraisers.get(String.valueOf(choice));
-//		if(Fundraiser == null)
-//		{
-//			return null;
-//		}
-//		return Fundraiser;
-//	}
-//	
-//	public void set(String name, int target, String deadline)
-//	{
-//		
-//	}
-//	
-//	public void donate(String choice, String amount)
-//	{
-//		//Current_Fundraisers.
-//	}
-//	
-//	public int size()
-//	{
-//		return Current_Fundraisers.size();
-//	}
-//	
-	
-	synchronized public ArrayList<String> get(int choice)
+	synchronized public ArrayList<T> get(int choice)
 	{
-		lock.lock();
-		ArrayList<String> Fundraiser = Current_Fundraisers.get(String.valueOf(choice));
+		
+		ArrayList<T> Fundraiser = Fundraisers.get(choice);
 		if(Fundraiser == null)
 		{
-			return null;
+			return null;		
 		}
-		lock.unlock();
+		
 		return Fundraiser;
 	}
 	
-	synchronized public void set(String name, int target, String deadline)
+	//Creates a new Fundraiser and puts it in the Fundraisers ArrayList
+	synchronized public void set(String name, Integer target, String deadline)
 	{
-		lock.lock();
-		ArrayList<String> Fundraiser = new ArrayList<>()
+		LocalDate temp = LocalDate.parse(deadline, date_format.ofPattern(format));
+		
+		ArrayList<T> Fundraiser = new ArrayList<>()
 		{
 			{
-				add(name);
-				add("0");
-				add(String.valueOf(target));
-				add(deadline);
+				add((T) name);
+				add((T) (Integer) 0);
+				add((T) target);
+				add((T) deadline);
 			}
 		};
-		Current_Fundraisers.put();
-		lock.unlock();
+		
+		//Checks if the Fundraiser is currently going on or is done
+		if(currentDate.isAfter(temp))
+		{
+			Fundraiser.add((T) (Integer) 1);
+		}
+		else
+		{
+			Fundraiser.add((T) (Integer) 0);
+		}
+		
+		Fundraisers.add(Fundraiser);
+		
+		return;
 	}
 	
-	synchronized public void donate(String choice, String amount)
+	synchronized public String donate(Integer choice, Integer amount)
 	{
-		//Current_Fundraisers.
+		
+		try
+		{
+			ArrayList<T> Fundraiser = Fundraisers.get(choice);
+			if(Fundraiser == null)
+			{
+				return null;
+			}
+			Fundraiser.set(1, (T) amount);
+			return "Donation Completed!";
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+	
+	synchronized public boolean valid_Date(String date)
+	{
+		try
+		{
+			LocalDate temp = LocalDate.parse(date, date_format.ofPattern(format));
+			return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
 	}
 	
 	synchronized public int size()
 	{
-		return Current_Fundraisers.size();
+		int result = Fundraisers.size();
+		return result;
 	}
-	
-	
-	
-	
-	
-	
-//	private <T> T[] generic_array(int size)
-//	{
-//		T[] Fundraiser = new T[size];
-//		return Fundraiser;
-//	}
 
 }

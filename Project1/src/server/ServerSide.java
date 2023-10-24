@@ -47,6 +47,7 @@ public class ServerSide <T> {
 			num++;
 			Socket New_Connection = User_Socket.accept();
 			Thread_Manager.execute(new User(New_Connection, Fundraisers));
+			
 			System.out.println("New client has connected");
 			System.out.println("User " + num + ": " + "IP address: " + New_Connection.getInetAddress() + " Port number: " + New_Connection.getPort());
 			
