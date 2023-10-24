@@ -9,12 +9,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-//import java.time.
 
 //This class is used to store data
 //Might get rid of this is I find out reading from a file is easier
 public class Database <T> {	
-	//private Date date = new Date();
+	//Globabl variables
 	private LocalDate currentDate = LocalDate.now();
 	private DateTimeFormatter date_format;
 	private String format = "MM/dd/yyyy";
@@ -25,9 +24,10 @@ public class Database <T> {
 	{
 		//Puts in a fundraiser to start with
 		set("John's college fund", 1000, "10/30/2023");
-		set("wedding", 10040, "10/20/2023");
+		set("wedding", 10040, "11/20/2023");
 	}
 	
+	//Grabs a fund
 	synchronized public ArrayList<T> get(int choice)
 	{
 		
@@ -70,25 +70,42 @@ public class Database <T> {
 		return;
 	}
 	
-	synchronized public String donate(Integer choice, Integer amount)
+	//This is what allows a user to donate
+	synchronized public Integer donate(Integer choice, Integer amount)
 	{
-		
-		try
-		{
-			ArrayList<T> Fundraiser = Fundraisers.get(choice);
-			if(Fundraiser == null)
-			{
-				return null;
-			}
-			Fundraiser.set(1, (T) amount);
-			return "Donation Completed!";
-		}
-		catch(Exception e)
+		Integer updated_donated_amount = 0;
+		ArrayList<T> Fundraiser;
+		//Checks if a fundraiser is still going
+		if(choice <= 0 || amount <= 0)
 		{
 			return null;
 		}
+		int j = 0;
+		for(int i = 0; i < Fundraisers.size(); i++)
+		{
+			Fundraiser = Fundraisers.get(i);
+			if(Fundraiser.get(4).equals(0))
+			{
+				j++;
+				if(j == choice)
+				{
+					try
+					{
+						updated_donated_amount = ((Integer) Fundraiser.get(1)) + amount;
+						Fundraiser.set(1, (T) updated_donated_amount);
+						return 1;
+					}
+					catch(Exception e)
+					{
+						return null;
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
+	//Checks if the date is valid
 	synchronized public boolean valid_Date(String date)
 	{
 		try
@@ -102,10 +119,19 @@ public class Database <T> {
 		}
 	}
 	
+	//Checks how many fundraisers are in the system
 	synchronized public int size()
 	{
 		int result = Fundraisers.size();
 		return result;
 	}
+	
+//	synchronized public int ()
+//	{
+//		int result = Fundraisers.size();
+//		return result;
+//	}
+	
+	
 
 }

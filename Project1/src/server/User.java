@@ -25,6 +25,8 @@ public class User<T> implements Runnable {
 	public void run() {
 		try
 		{
+			System.out.println(Thread.currentThread().getName() + " has connected");
+			
 			toClient = new DataOutputStream(Connection.getOutputStream());
 			fromClient = new BufferedReader(new InputStreamReader(Connection.getInputStream()));
 			toClient.writeBytes("You are connected!\n");
@@ -37,6 +39,7 @@ public class User<T> implements Runnable {
 			while(true)
 			{
 				//Keeps the user at either current or past fundrasiers 
+				toClient.writeBytes("\n");
 				display_Fundraisers(current_past);
 				
 				display_options();
@@ -45,30 +48,34 @@ public class User<T> implements Runnable {
 				{
 				case "current":
 				case "1":
+					System.out.println(Thread.currentThread().getName() + " REQUESTED: On going fundraisers");
 					current_past = 0;
 					break;
 				case "past":
 				case "2":
+					System.out.println(Thread.currentThread().getName() + " REQUESTED: Past fundraisers");
 					current_past = 1;
 					break;
 				case "create":
 				case "3":
+					System.out.println(Thread.currentThread().getName() + " REQUESTED: Creating a new fundraiser");
 					create();
 					break;
 				case "donate":
 				case "4":
+					System.out.println(Thread.currentThread().getName() + " REQUESTED: Donating to a fundraiser");
 					donate();
 					break;
-				case "back":
+				case "refresh":
 				case "5":
-					current_past = 0;
 					break;
 				case "exit":
 				case "6":
+					System.out.println(Thread.currentThread().getName() + " REQUESTED: Disconnected");
 					exit();
 					break;
 				default:
-					
+					toClient.writeBytes("Your input is not valid\n" + "Try again\n" + " \n");
 					break;
 				}
 				
@@ -82,14 +89,52 @@ public class User<T> implements Runnable {
 		
 	}
 	
-	private void exit()
+	private void exit() throws Exception
 	{
-		
+		toClient.writeBytes("^^&^&^&\n");
 	}
 	
-	private void donate()
+	private void donate() throws Exception
 	{
+		Integer choice = 0;
+		Integer donation = 0;
+		display_Fundraisers(0);
+		toClient.writeBytes("Which fundraiser do you want to donate to?\n" + "Your response should be a number" + " \n");		
+		toClient.writeBytes(" \n");
+		while(true)
+		{
+			try
+			{
+				choice = Integer.valueOf(fromClient.readLine());
+				break;
+			}
+			catch(Exception e)
+			{
+				toClient.writeBytes("Your input is not valid\n");
+				toClient.writeBytes("Try again\n" + " \n");
+			}
+		}
 		
+		toClient.writeBytes("How much do you want to donate?\n" + " \n");
+		while(true)
+		{
+			try
+			{
+				donation = Integer.valueOf(fromClient.readLine());
+				break;
+			}
+			catch(Exception e)
+			{
+				toClient.writeBytes("Your input is not valid\n");
+				toClient.writeBytes("Try again\n" + " \n");
+			}
+		}
+		if(Fundraisers.donate(choice, donation).equals(null))
+		{
+			toClient.writeBytes("Your donation couldn't go through :(\n");
+			return;
+		}
+		toClient.writeBytes("Your donation went through! :)\n" + "Thank you!\n");
 	}
 	
 	
@@ -100,7 +145,7 @@ public class User<T> implements Runnable {
 		+"2. See past funderaisers\n"
 		+"3. Create a funderaiser\n"
 		+"4. donate to a funderaiser\n"
-		+"5. Go back\n"
+		+"5. Refresh\n"
 		+"6. Exit\n" + " \n");
 	}
 	
@@ -179,8 +224,8 @@ public class User<T> implements Runnable {
 				display();
 				for(int i = 0; i < Current_Funderaisers.size(); i++)
 				{
+					temp1 = "";
 					temp = Current_Funderaisers.get(i);
-					//toClient.writeBytes((i+1) + ".\n");
 					for(int j = 0; j < temp.size()-1; j++)
 					{
 						temp1 = temp1 + " " + temp.get(j).toString() + " |";
@@ -194,8 +239,8 @@ public class User<T> implements Runnable {
 				toClient.writeBytes("Here are past funderaisers:\n");
 				for(int i = 0; i <	Old_Funderaisers.size(); i++)
 				{
+					temp1 = "";
 					temp = Old_Funderaisers.get(i);
-					//toClient.writeBytes((i+1) + ".\n");
 					for(int j = 0; j < temp.size()-1; j++)
 					{
 						temp1 = temp1 + " " + temp.get(j).toString() + " |";

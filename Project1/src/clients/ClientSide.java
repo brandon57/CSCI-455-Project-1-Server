@@ -16,7 +16,7 @@ public class ClientSide {
 		
 		Scanner input = new Scanner(System.in);
 		
-		System.out.println("What do you want to do?\n1. Connect to website\n2. Exit");
+		System.out.println("What do you want to do?\n1. Connect to GoFundMe\n2. Exit");
 		
 		//Asks the user if they want to connect or not
 		while(true)
@@ -112,12 +112,6 @@ public class ClientSide {
 			}
 		}
 		toServer = new DataOutputStream(client.getOutputStream());
-		//System.out.println("Say something to the server");
-		
-		
-		//toServer.writeBytes(input.nextLine() + "\n");
-		
-		//client.close();
 		
 		//The part where the User actually interacts with the Website
 		System.out.println("");
@@ -128,7 +122,11 @@ public class ClientSide {
 			{
 				while((textFromServer = fromServer.readLine()) != null)
 				{
-					if(textFromServer.equalsIgnoreCase(" "))
+					if(textFromServer.equals("^^&^&^&"))
+					{
+						close();
+					}
+					else if(textFromServer.equalsIgnoreCase(" "))
 					{
 						break;
 					}
