@@ -1,12 +1,7 @@
 package server;
 
-import java.util.HashMap;
-import java.util.concurrent.locks.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -24,7 +19,7 @@ public class Database <T> {
 	{
 		//Puts in a fundraiser to start with
 		set("John's college fund", 1000, "10/30/2023");
-		set("wedding", 10040, "11/20/2023");
+		set("wedding", 10040, "11/20/2022");
 	}
 	
 	//Grabs a fund
@@ -78,7 +73,7 @@ public class Database <T> {
 		//Checks if a fundraiser is still going
 		if(choice <= 0 || amount <= 0)
 		{
-			return null;
+			return 0;
 		}
 		int j = 0;
 		for(int i = 0; i < Fundraisers.size(); i++)
@@ -97,12 +92,12 @@ public class Database <T> {
 					}
 					catch(Exception e)
 					{
-						return null;
+						return 0;
 					}
 				}
 			}
 		}
-		return null;
+		return 0;
 	}
 	
 	//Checks if the date is valid
@@ -125,13 +120,4 @@ public class Database <T> {
 		int result = Fundraisers.size();
 		return result;
 	}
-	
-//	synchronized public int ()
-//	{
-//		int result = Fundraisers.size();
-//		return result;
-//	}
-	
-	
-
 }
