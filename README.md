@@ -10,7 +10,6 @@ Project 1 for CSCI 455
   <img src="Doc/project1_2023_Fall_pg2.png" width="688" />
 </p>
 
-
 # How to start the server
 In order to run the server you need to open the command line or powershell and navigate to the directory of where the file is located.
 Once you do that you can start the program by typing this command `java -jar Server.jar`
@@ -58,7 +57,7 @@ input: past
 Result:
 ---------------------------------------------------------------------------------
 Here are past funderaisers:
-1. wedding | raised: $0 | goal: $10040 | ended: 11/20/2022 |
+1. Wedding | raised: $0 | goal: $10000 | ended: 11/20/2022 |
 ---------------------------------------------------------------------------------
 These are the options you have to chose from
 1. See current funderaisers
