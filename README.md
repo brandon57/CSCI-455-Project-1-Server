@@ -10,6 +10,8 @@ Project 1 for CSCI 455
   <img src="Doc/project1_2023_Fall_pg2.png" width="688" />
 </p>
 
+# Files needed to run the Server and Client
+
 # How to start the server
 In order to run the server you need to open the command line or powershell and navigate to the directory of where the file is located.
 Once you do that you can start the program by typing this command `java -jar Server.jar`
