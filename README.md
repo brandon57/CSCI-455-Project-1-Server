@@ -1,4 +1,4 @@
-# CSCI-455-Project-1
+# CSCI-455-Project-1-Server
 This is the server application for project 1 for CSCI 455
 
 [Client application](https://github.com/brandon57/CSCI-455-Project-1-Client)
