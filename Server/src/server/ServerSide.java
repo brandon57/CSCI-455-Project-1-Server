@@ -17,6 +17,8 @@ public class ServerSide {
 		//Manages the threads
 		ExecutorService Thread_Manager = Executors.newCachedThreadPool();
 		
+		//test
+		
 		//Creates a socket
 		while(true)
 		{
