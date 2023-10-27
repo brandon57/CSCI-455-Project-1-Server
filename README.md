@@ -1,5 +1,7 @@
-# CSCI-455-Project-1
-Project 1 for CSCI 455
+# CSCI-455-Project-1-Server
+This is the server application for project 1 for CSCI 455
+
+[Client application](https://github.com/brandon57/CSCI-455-Project-1-Client)
 
 # These are the requirements for the project
 <p align="center">
@@ -9,7 +11,6 @@ Project 1 for CSCI 455
 <p align="center">
   <img src="Doc/project1_2023_Fall_pg2.png" width="688" />
 </p>
-
 
 # How to start the server
 In order to run the server you need to open the command line or powershell and navigate to the directory of where the file is located.
@@ -21,6 +22,7 @@ Opening Socket
 Socket is open
 ```
 Seeing this means that the server is now running and waiting for users to connect.
+
 
 # How to start the client
 The way to start the client is the same as the server except you'll get a different screen when it starts.
