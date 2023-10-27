@@ -17,7 +17,7 @@ public class ServerSide {
 		//Manages the threads
 		ExecutorService Thread_Manager = Executors.newCachedThreadPool();
 		
-		URL server = new URI("http://test").toURL();
+		//URL server = new URI("http://test").toURL();
 		//Creates a socket
 		while(true)
 		{
