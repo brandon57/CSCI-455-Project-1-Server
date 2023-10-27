@@ -1,29 +1,46 @@
 package server;
 
+import java.io.IOException;
 import java.net.*;
 import java.util.concurrent.*;
+import java.util.Scanner;
 
-public class ServerSide <T> {
+public class ServerSide {
 	
-	public static <T> void main(String[] args) throws Exception {
+	private static ServerSocket User_Socket = null;
+	
+	public static void main(String[] args) throws Exception {
+		
+		Scanner input = new Scanner(System.in);
+		String inputText = "";
 		
 		//Manages the threads
 		ExecutorService Thread_Manager = Executors.newCachedThreadPool();
 		
-		ServerSocket User_Socket = null;
-		
+		URL server = new URI("http://test").toURL();
 		//Creates a socket
-		try
+		while(true)
 		{
-			System.out.println("Opening Socket...");
-			User_Socket = new ServerSocket(6789);
-			System.out.println("Socket is open");
-		}
-		catch(Exception e)
-		{
-			System.out.println("Couldn't open socket");
-			e.printStackTrace();
-			System.exit(0);
+			try
+			{
+				//System.out.println("Set the ip");
+				//inputText = input.
+				System.out.println("Set the port number");
+				inputText = input.nextLine();
+				System.out.println("Opening Socket...");
+				User_Socket = new ServerSocket(Integer.valueOf(inputText));
+				System.out.println("Socket is open");
+				break;
+	
+			}
+			catch(NumberFormatException n)
+			{
+				System.out.println("Your input has to be a number\nTry again");
+			}
+			catch(IOException i)
+			{
+				System.out.println("Couldn't open socket\nTry again");
+			}
 		}
 		
 		Database Fundraisers = new Database();
@@ -34,5 +51,10 @@ public class ServerSide <T> {
 			Socket New_Connection = User_Socket.accept();
 			Thread_Manager.execute(new User(New_Connection, Fundraisers));
 		}
+	}
+	
+	private void socketSetup(String input)
+	{
+
 	}
 }
