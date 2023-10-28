@@ -5,11 +5,11 @@ This is the server application for project 1 for CSCI 455
 
 # These are the requirements for the project
 <p align="center">
-  <img src="Doc/project1_2023_Fall_pg1.png" width="688" />
+  <img src="Documents/project1_2023_Fall_pg1.png" width="688" />
 </p>
 
 <p align="center">
-  <img src="Doc/project1_2023_Fall_pg2.png" width="688" />
+  <img src="Documents/project1_2023_Fall_pg2.png" width="688" />
 </p>
 
 # How to start the server
