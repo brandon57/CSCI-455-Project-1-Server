@@ -19,7 +19,7 @@ public class Database <T> {
 	{
 		//Puts in a fundraiser to start with
 		set("John's college fund", 1000, "10/30/2023");
-		set("wedding", 10040, "11/20/2022");
+		set("John's wedding", 10040, "11/20/2022");
 	}
 	
 	//Grabs a fund
