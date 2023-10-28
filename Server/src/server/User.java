@@ -2,6 +2,7 @@ package server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ public class User<T> implements Runnable {
 		try
 		{
 			System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: has connected ");
-			//System.out.println("IP address: " + New_Connection.getInetAddress() + " Port number: " + New_Connection.getPort());
 			
 			toClient = new DataOutputStream(Connection.getOutputStream());
 			fromClient = new BufferedReader(new InputStreamReader(Connection.getInputStream()));
@@ -79,8 +79,6 @@ public class User<T> implements Runnable {
 		catch(Exception e)
 		{
 			
-			//e.printStackTrace();
-			//System.out.println(e.getStackTrace());
 		}
 		
 	}

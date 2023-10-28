@@ -9,39 +9,19 @@ public class ServerSide {
 	
 	private static ServerSocket User_Socket = null;
 	private static Scanner input = new Scanner(System.in);
+	//Manages the threads
 	private static ExecutorService Thread_Manager = Executors.newCachedThreadPool();
 	
 	
-	public static void main(String[] args) throws Exception {
-		
-		
+	public static void main(String[] args) throws Exception {		
 		String inputText = "";
-		
-		//Manages the threads
-		
-		
+
 		//Creates a socket
-		connect();
-//		while(true)
-//		{
-//			try
-//			{	
-//				connect();
-//				break;
-//			}
-//			catch(NumberFormatException n)
-//			{
-//				System.out.println("Your input has to be a number\nTry again");
-//			}
-//			catch(IOException i)
-//			{
-//				System.out.println("Couldn't open socket\nTry again");
-//			}
-//		}
+		Startup();
 		
 		Database Fundraisers = new Database();
 		
-		//Waits for a User to connect then
+		//Waits for a User to connect then creates a thread for each user
 		while(true)
 		{
 			Socket New_Connection = User_Socket.accept();
@@ -49,7 +29,7 @@ public class ServerSide {
 		}
 	}
 	
-	private static void connect() throws Exception
+	private static void Startup() throws Exception
 	{
 		String port = null;
 		while(true)
