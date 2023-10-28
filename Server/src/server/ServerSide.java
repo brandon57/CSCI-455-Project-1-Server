@@ -2,6 +2,7 @@ package server;
 
 import java.io.IOException;
 import java.net.*;
+import java.time.LocalDate;
 import java.util.concurrent.*;
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ public class ServerSide {
 	
 	public static void main(String[] args) throws Exception {		
 		String inputText = "";
-
+		
 		//Creates a socket
 		Startup();
 		
@@ -34,7 +35,7 @@ public class ServerSide {
 		String port = null;
 		while(true)
 		{
-			System.out.println("What is the port number of the server? Your input should be between 0-65535\nYou can exit if you want");
+			System.out.println("What is the port number of the server? Your input should be between 0-65535\nYou can exit if you want.");
 			port = input.nextLine();
 			if(validPort(port) == true)
 			{

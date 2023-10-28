@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.util.ArrayList;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class User<T> implements Runnable {
 	
@@ -14,6 +16,9 @@ public class User<T> implements Runnable {
 	private DataOutputStream toClient = null;
 	private BufferedReader fromClient = null;
 	private String textFromClient = "";
+	private DateTimeFormatter date_format = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+	private LocalDateTime currentTime = LocalDateTime.now();
+	private LocalTime time = LocalTime.now();
 	
 	public User(Socket new_Connection, Database<T> database)
 	{
@@ -25,7 +30,8 @@ public class User<T> implements Runnable {
 	public void run() {
 		try
 		{
-			System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: has connected ");
+			System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: has connected"
+			+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
 			
 			toClient = new DataOutputStream(Connection.getOutputStream());
 			fromClient = new BufferedReader(new InputStreamReader(Connection.getInputStream()));
@@ -62,7 +68,8 @@ public class User<T> implements Runnable {
 					break;
 				case "refresh":
 				case "5":
-					System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Refreshed page");
+					System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Refreshed page"
+					+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
 					break;
 				case "exit":
 				case "6":
@@ -86,7 +93,8 @@ public class User<T> implements Runnable {
 	//Let's the user quit the program
 	private void exit() throws Exception
 	{
-		System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Disconnected");
+		System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Disconnected"
+		+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
 		toClient.writeBytes("^^&^&^&\n");
 		toClient.close();
 		fromClient.close();
@@ -96,7 +104,8 @@ public class User<T> implements Runnable {
 	//The UI for how the user donates
 	private void donate() throws Exception
 	{
-		System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Donated");
+		System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Donated"
+		+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
 		Integer choice = 0;
 		Integer donation = 0;
 		display_Fundraisers(0);
@@ -164,7 +173,8 @@ public class User<T> implements Runnable {
 	//User Creating a new fundraiser
 	private void create() throws Exception
 	{
-		System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: creating a fundraiser");
+		System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: creating a fundraiser"
+		+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
 		String name;
 		Integer target = 0;
 		String deadline;
@@ -237,7 +247,8 @@ public class User<T> implements Runnable {
 		{
 			//Current Fundraisers
 			case 0:
-				System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Looking at on going fundrasisers");
+				System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Looking at on going fundrasisers"
+				+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
 				toClient.writeBytes("Here are on going funderaisers:\n");
 				//display();
 				for(int i = 0; i < Current_Funderaisers.size(); i++)
@@ -268,7 +279,8 @@ public class User<T> implements Runnable {
 				break;
 			//Old Fundraisers
 			case 1:
-				System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Looking at past fundrasisers");
+				System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Looking at past fundrasisers"
+				+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
 				toClient.writeBytes("Here are past funderaisers:\n");
 				for(int i = 0; i <	Old_Funderaisers.size(); i++)
 				{
