@@ -2,8 +2,8 @@ package server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.*;
 import java.util.ArrayList;
 import java.time.*;
@@ -17,8 +17,6 @@ public class User<T> implements Runnable {
 	private BufferedReader fromClient = null;
 	private String textFromClient = "";
 	private DateTimeFormatter date_format = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
-	private LocalDateTime currentTime = LocalDateTime.now();
-	private LocalTime time = LocalTime.now();
 	
 	public User(Socket new_Connection, Database<T> database)
 	{
@@ -31,7 +29,7 @@ public class User<T> implements Runnable {
 		try
 		{
 			System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: has connected"
-			+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
+			+ ", Local time: " + date_format.format(LocalDateTime.now()));
 			
 			toClient = new DataOutputStream(Connection.getOutputStream());
 			fromClient = new BufferedReader(new InputStreamReader(Connection.getInputStream()));
@@ -69,7 +67,7 @@ public class User<T> implements Runnable {
 				case "refresh":
 				case "5":
 					System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Refreshed page"
-					+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
+					+ ", Local time: " + date_format.format(LocalDateTime.now()));
 					break;
 				case "exit":
 				case "6":
@@ -94,7 +92,7 @@ public class User<T> implements Runnable {
 	private void exit() throws Exception
 	{
 		System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Disconnected"
-		+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
+		+ ", Local time: " + date_format.format(LocalDateTime.now()));
 		toClient.writeBytes("^^&^&^&\n");
 		toClient.close();
 		fromClient.close();
@@ -105,9 +103,9 @@ public class User<T> implements Runnable {
 	private void donate() throws Exception
 	{
 		System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Donated"
-		+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
+		+ ", Local time: " + date_format.format(LocalDateTime.now()));
 		Integer choice = 0;
-		Integer donation = 0;
+		Double donation = 0.0;
 		display_Fundraisers(0);
 		toClient.writeBytes("Which fundraiser do you want to donate to?\n" + "Your response should be a number" + " \n");		
 		toClient.writeBytes(" \n");
@@ -135,8 +133,9 @@ public class User<T> implements Runnable {
 		{
 			try
 			{
-				donation = Integer.valueOf(fromClient.readLine());
-				if(donation > 0)
+				donation = Double.valueOf(fromClient.readLine());
+				int temp = BigDecimal.valueOf(donation).scale();
+				if(donation > 0 && temp <= 2)
 				{
 					break;
 				}
@@ -157,7 +156,7 @@ public class User<T> implements Runnable {
 		toClient.writeBytes("Your donation went through! :)\n" + "Thank you!\n");
 	}
 	
-	
+	//Displays the options the user can select
 	private void display_options() throws Exception
 	{
 		toClient.writeBytes("These are the options you have to chose from\n"
@@ -170,13 +169,13 @@ public class User<T> implements Runnable {
 	}
 	
 	
-	//User Creating a new fundraiser
+	//Allows the user to Create a new fundraiser
 	private void create() throws Exception
 	{
 		System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: creating a fundraiser"
-		+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
+		+ ", Local time: " + date_format.format(LocalDateTime.now()));
 		String name;
-		Integer target = 0;
+		Double target = 0.0;
 		String deadline;
 		
 		toClient.writeBytes("What is the name of your fundraiser?\n" + " \n");
@@ -187,8 +186,9 @@ public class User<T> implements Runnable {
 		{
 			try
 			{
-				target = Integer.valueOf(fromClient.readLine());
-				if(target > 0)
+				target = Double.valueOf(fromClient.readLine());
+				int temp = BigDecimal.valueOf(target).scale();
+				if(target > 0 && temp <= 2)
 				{
 					break;
 				}
@@ -227,18 +227,18 @@ public class User<T> implements Runnable {
 	{
 		
 		ArrayList<T> temp;
-		ArrayList<ArrayList<T>> Old_Funderaisers = new ArrayList<ArrayList<T>>();
-		ArrayList<ArrayList<T>> Current_Funderaisers = new ArrayList<ArrayList<T>>();
+		ArrayList<ArrayList<T>> Past_Fundraisers = new ArrayList<ArrayList<T>>();
+		ArrayList<ArrayList<T>> Current_Fundraisers = new ArrayList<ArrayList<T>>();
 		
 		for(int i = 0; i < Fundraisers.size(); i++)
 		{
 			if(Fundraisers.get(i).get(4).equals(0))
 			{
-				Current_Funderaisers.add(Fundraisers.get(i));
+				Current_Fundraisers.add(Fundraisers.get(i));
 			}
 			else if(Fundraisers.get(i).get(4).equals(1))
 			{
-				Old_Funderaisers.add(Fundraisers.get(i));
+				Past_Fundraisers.add(Fundraisers.get(i));
 			}
 		}
 		String temp1 = "";
@@ -248,13 +248,13 @@ public class User<T> implements Runnable {
 			//Current Fundraisers
 			case 0:
 				System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Looking at on going fundrasisers"
-				+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
+				+ ", Local time: " + date_format.format(LocalDateTime.now()));
 				toClient.writeBytes("Here are on going funderaisers:\n");
 				//display();
-				for(int i = 0; i < Current_Funderaisers.size(); i++)
+				for(int i = 0; i < Current_Fundraisers.size(); i++)
 				{
 					temp1 = "";
-					temp = Current_Funderaisers.get(i);
+					temp = Current_Fundraisers.get(i);
 					for(int j = 0; j < temp.size()-1; j++)
 					{
 						switch(j) 
@@ -280,12 +280,12 @@ public class User<T> implements Runnable {
 			//Old Fundraisers
 			case 1:
 				System.out.println(Thread.currentThread().getName() + ": IP address: " + Connection.getInetAddress() + ", Port number: " + Connection.getPort() + ", ACTION: Looking at past fundrasisers"
-				+ ", Local time: " + date_format.format(LocalDateTime.now()) + " CST");
+				+ ", Local time: " + date_format.format(LocalDateTime.now()));
 				toClient.writeBytes("Here are past funderaisers:\n");
-				for(int i = 0; i <	Old_Funderaisers.size(); i++)
+				for(int i = 0; i <	Past_Fundraisers.size(); i++)
 				{
 					temp1 = "";
-					temp = Old_Funderaisers.get(i);
+					temp = Past_Fundraisers.get(i);
 					for(int j = 0; j < temp.size()-1; j++)
 					{
 						switch(j) 

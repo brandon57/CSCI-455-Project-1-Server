@@ -1,8 +1,6 @@
 package server;
 
-import java.io.IOException;
 import java.net.*;
-import java.time.LocalDate;
 import java.util.concurrent.*;
 import java.util.Scanner;
 
@@ -30,6 +28,7 @@ public class ServerSide {
 		}
 	}
 	
+	//This opens up the socket so others can connect
 	private static void Startup() throws Exception
 	{
 		String port = null;
@@ -55,6 +54,7 @@ public class ServerSide {
 		System.out.println("Socket is open");
 	}
 	
+	//Checks if the port number the user inputted is valid
 	private static boolean validPort(String port)
 	{
 		Integer temp = 0;
@@ -73,6 +73,7 @@ public class ServerSide {
 		return false;
 	}
 	
+	//Shuts down the server
 	private static void close() throws Exception
 	{
 		if(User_Socket != null)

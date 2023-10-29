@@ -18,8 +18,8 @@ public class Database <T> {
 	public <T> Database() throws ParseException
 	{
 		//Puts in a fundraiser to start with
-		set("John's college fund", 1000, "10/30/2023");
-		set("John's wedding", 10040, "11/20/2022");
+		set("John's college fund", 1000.0, "10/30/2023");
+		set("John's wedding", 10040.0, "11/20/2022");
 	}
 	
 	//Grabs a fund
@@ -36,7 +36,7 @@ public class Database <T> {
 	}
 	
 	//Creates a new Fundraiser and puts it in the Fundraisers ArrayList
-	synchronized public void set(String name, Integer target, String deadline)
+	synchronized public void set(String name, Double target, String deadline)
 	{
 		LocalDate temp = LocalDate.parse(deadline, date_format.ofPattern(format));
 		
@@ -44,7 +44,7 @@ public class Database <T> {
 		{
 			{
 				add((T) name);
-				add((T) (Integer) 0);
+				add((T) (Double) 0.0);
 				add((T) target);
 				add((T) deadline);
 			}
@@ -59,18 +59,16 @@ public class Database <T> {
 		{
 			Fundraiser.add((T) (Integer) 0);
 		}
-		
 		Fundraisers.add(Fundraiser);
-		
-		return;
 	}
 	
 	//This is what allows a user to donate
-	synchronized public Integer donate(Integer choice, Integer amount)
+	synchronized public Integer donate(Integer choice, Double amount)
 	{
-		Integer updated_donated_amount = 0;
+		Double updated_donated_amount = 0.0;
 		ArrayList<T> Fundraiser;
 		//Checks if a fundraiser is still going
+		//Or if amount if a negative number
 		if(choice <= 0 || amount <= 0)
 		{
 			return 0;
@@ -86,7 +84,7 @@ public class Database <T> {
 				{
 					try
 					{
-						updated_donated_amount = ((Integer) Fundraiser.get(1)) + amount;
+						updated_donated_amount = ((Double) Fundraiser.get(1)) + amount;
 						Fundraiser.set(1, (T) updated_donated_amount);
 						return 1;
 					}
